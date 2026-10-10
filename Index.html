@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#f97316">
+  <title>AV UNITED - Cricket Face-Off</title>
+
+  <!-- PWA & Mobile App Settings -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="AV UNITED">
+  <meta name="application-name" content="AV UNITED">
+
+  <!-- Official AVPL / AV United App Icon (Retina & Standard Home Screen) -->
+  <link rel="apple-touch-icon" href="data:image/svg+xml;utf8,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'&gt;&lt;rect width='400' height='400' rx='80' fill='%23060814'/&gt;&lt;g transform='translate(10,50)'&gt;&lt;path d='M 80 40 L 220 120 L 330 110 L 300 240 L 110 240 L 40 180 Z' stroke='%23f97316' stroke-width='16' stroke-linejoin='round' fill='none'/&gt;&lt;ellipse cx='200' cy='150' rx='140' ry='85' fill='%237f1d1d' opacity='0.6'/&gt;&lt;ellipse cx='200' cy='150' rx='110' ry='60' stroke='%23dc2626' stroke-width='10' fill='none'/&gt;&lt;path d='M 50 60 L 190 145 L 180 165 L 40 80 Z' fill='%231e1b4b' stroke='%23f97316' stroke-width='4'/&gt;&lt;line x1='230' y1='60' x2='230' y2='140' stroke='%23312e81' stroke-width='10'/&gt;&lt;line x1='250' y1='50' x2='245' y2='140' stroke='%23312e81' stroke-width='10'/&gt;&lt;line x1='270' y1='60' x2='260' y2='140' stroke='%23312e81' stroke-width='10'/&gt;&lt;polygon points='50,150 330,120 300,205 20,235' fill='%231e1b4b' stroke='%23f97316' stroke-width='7'/&gt;&lt;text x='175' y='195' font-family='sans-serif' font-weight='900' font-size='50' fill='%23ffffff' stroke='%23f97316' stroke-width='1.5' text-anchor='middle' transform='rotate(-6 175 195)'&gt;AV UNITED&lt;/text&gt;&lt;circle cx='230' cy='225' r='22' fill='%23991b1b' stroke='%23ffffff' stroke-width='2'/&gt;&lt;/g&gt;&lt;/svg&gt;">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'&gt;&lt;rect width='400' height='400' rx='80' fill='%23060814'/&gt;&lt;g transform='translate(10,50)'&gt;&lt;path d='M 80 40 L 220 120 L 330 110 L 300 240 L 110 240 L 40 180 Z' stroke='%23f97316' stroke-width='16' stroke-linejoin='round' fill='none'/&gt;&lt;ellipse cx='200' cy='150' rx='140' ry='85' fill='%237f1d1d' opacity='0.6'/&gt;&lt;ellipse cx='200' cy='150' rx='110' ry='60' stroke='%23dc2626' stroke-width='10' fill='none'/&gt;&lt;path d='M 50 60 L 190 145 L 180 165 L 40 80 Z' fill='%231e1b4b' stroke='%23f97316' stroke-width='4'/&gt;&lt;line x1='230' y1='60' x2='230' y2='140' stroke='%23312e81' stroke-width='10'/&gt;&lt;line x1='250' y1='50' x2='245' y2='140' stroke='%23312e81' stroke-width='10'/&gt;&lt;line x1='270' y1='60' x2='260' y2='140' stroke='%23312e81' stroke-width='10'/&gt;&lt;polygon points='50,150 330,120 300,205 20,235' fill='%231e1b4b' stroke='%23f97316' stroke-width='7'/&gt;&lt;text x='175' y='195' font-family='sans-serif' font-weight='900' font-size='50' fill='%23ffffff' stroke='%23f97316' stroke-width='1.5' text-anchor='middle' transform='rotate(-6 175 195)'&gt;AV UNITED&lt;/text&gt;&lt;circle cx='230' cy='225' r='22' fill='%23991b1b' stroke='%23ffffff' stroke-width='2'/&gt;&lt;/g&gt;&lt;/svg&gt;">
+  
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: radial-gradient(circle at 50% 20%, #17123d 0%, #060814 100%);
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    header {
+      background: rgba(10, 13, 31, 0.95);
+      border-bottom: 1px solid #2d225a;
+      padding: 8px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .brand { display: flex; align-items: center; gap: 8px; }
+    .brand-title { font-size: 20px; font-weight: 900; color: #f97316; letter-spacing: 1px; }
+    .brand-sub { font-size: 10px; color: #fed7aa; text-transform: uppercase; letter-spacing: 1px; }
+    
+    .btn-group { display: flex; gap: 6px; }
+    button { cursor: pointer; border: none; outline: none; border-radius: 6px; font-weight: 700; }
+    .btn-manage { background: #1e1b4b; border: 1px solid #f97316; color: #fb923c; padding: 6px 10px; font-size: 11px; }
+    .btn-bulk { background: #4338ca; border: 1px solid #818cf8; color: #e0e7ff; padding: 6px 10px; font-size: 11px; }
+    .btn-add { background: #ea580c; color: #fff; padding: 6px 10px; font-size: 11px; }
+    .btn-restart { background: #b91c1c; color: #fff; padding: 6px 10px; font-size: 11px; }
+    .btn-save { background: #27272a; color: #d4d4d8; padding: 6px 10px; font-size: 11px; }
+
+    .filter-wrapper { padding: 10px 8px 4px; text-align: center; }
+    .filter-label { font-size: 11px; font-weight: 700; color: #fdba74; text-transform: uppercase; margin-bottom: 6px; }
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px;
+      background: #0d112d;
+      padding: 6px;
+      border-radius: 10px;
+      border: 1px solid #2e2659;
+      max-width: 620px;
+      margin: 0 auto;
+    }
+    .filter-btn {
+      background: rgba(49, 46, 129, 0.4);
+      color: #cbd5e1;
+      border: 1px solid #3730a3;
+      padding: 5px 10px;
+      font-size: 11px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+    .filter-btn.active {
+      background: #ea580c !important;
+      border-color: #f97316 !important;
+      color: #ffffff !important;
+      box-shadow: 0 0 10px rgba(234, 88, 12, 0.5);
+    }
+
+    main { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 8px 12px; max-width: 800px; margin: 0 auto; width: 100%; }
+    .cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      position: relative;
+      margin-top: 6px;
+    }
+    .vs-badge {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background: #1e1b4b;
+      border: 2px solid #f97316;
+      color: #fb923c;
+      font-weight: 900;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      z-index: 10;
+      box-shadow: 0 0 12px rgba(249, 115, 22, 0.4);
+    }
+
+    .card {
+      background: linear-gradient(180deg, #18153d 0%, #0b0d1e 100%);
+      border: 2px solid rgba(249, 115, 22, 0.35);
+      border-radius: 12px;
+      padding: 12px 8px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 250px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+      transition: transform 0.15s, border-color 0.15s;
+    }
+    .card:hover { border-color: #f97316; }
+    .card:active { transform: scale(0.98); }
+    .streak-badge {
+      background: #ea580c;
+      color: #fff;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 10px;
+      font-weight: 800;
+      align-self: center;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+    .card-cat {
+      font-size: 9px;
+      color: #fb923c;
+      background: rgba(124, 45, 18, 0.4);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 700;
+      display: inline-block;
+      margin-bottom: 6px;
+      border: 1px solid rgba(249, 115, 22, 0.2);
+    }
+    .avatar-circle {
+      width: 54px;
+      height: 54px;
+      margin: 4px auto;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ea580c, #4338ca);
+      border: 2px solid #fdba74;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 900;
+      color: #fff;
+    }
+    .card-name { font-size: 16px; font-weight: 800; color: #fff; line-height: 1.1; margin: 4px 0 2px; }
+    .card-team { font-size: 11px; color: #94a3b8; font-weight: 600; margin-bottom: 4px; }
+    .card-role { font-size: 10px; color: #fed7aa; padding-top: 4px; border-top: 1px solid rgba(76, 29, 149, 0.4); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .btn-select {
+      background: #ea580c;
+      color: #fff;
+      padding: 7px 4px;
+      font-size: 12px;
+      border-radius: 6px;
+      font-weight: 800;
+      margin-top: 8px;
+      width: 100%;
+    }
+
+    .winner-screen {
+      background: linear-gradient(180deg, #1f144d 0%, #0d0f26 100%);
+      border: 2px solid #f97316;
+      border-radius: 16px;
+      padding: 28px 16px;
+      text-align: center;
+      box-shadow: 0 0 35px rgba(249, 115, 22, 0.35);
+      margin: 12px 0;
+    }
+    .winner-trophy { font-size: 44px; margin-bottom: 6px; }
+    .winner-title { font-size: 24px; font-weight: 900; color: #f97316; margin-bottom: 4px; }
+    .winner-subtitle { font-size: 12px; color: #cbd5e1; margin-bottom: 16px; }
+    .winner-name { font-size: 28px; font-weight: 900; color: #ffffff; margin-bottom: 2px; }
+    .winner-detail { font-size: 13px; color: #fed7aa; margin-bottom: 16px; }
+
+    .stats-bar { text-align: center; font-size: 11px; color: #94a3b8; padding: 10px 0; }
+    .stats-bar span { color: #fb923c; font-weight: 800; }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 12px;
+    }
+    .modal-box {
+      background: #0f1226;
+      border: 1px solid #f97316;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 520px;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .modal-header {
+      background: #181a38;
+      padding: 12px;
+      border-bottom: 1px solid #2e2659;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-header h3 { font-size: 16px; color: #fb923c; }
+    .modal-close { background: transparent; color: #94a3b8; font-size: 20px; }
+    .modal-body { padding: 12px; overflow-y: auto; flex: 1; }
+    .input-box {
+      width: 100%;
+      background: #060814;
+      border: 1px solid #3730a3;
+      border-radius: 6px;
+      padding: 8px;
+      color: #fff;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+    textarea.input-box { font-family: monospace; font-size: 11px; line-height: 1.4; resize: vertical; }
+    .roster-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #1e1b4b;
+    }
+    .roster-row-info { font-size: 13px; font-weight: 700; color: #fff; }
+    .roster-row-sub { font-size: 10px; color: #94a3b8; }
+    .roster-actions button { padding: 4px 8px; font-size: 10px; margin-left: 4px; }
+    .btn-edit { background: rgba(217, 119, 6, 0.3); color: #fcd34d; border: 1px solid #b45309; }
+    .btn-del { background: rgba(220, 38, 38, 0.3); color: #fca5a5; border: 1px solid #b91c1c; }
+    .help-hint {
+      background: #070914;
+      border: 1px dashed #3730a3;
+      padding: 8px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      color: #cbd5e1;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="brand">
+      <svg width="44" height="34" viewBox="0 0 400 320" fill="none">
+        <g transform="translate(10, 10)">
+          <path d="M 80 40 L 220 120 L 330 110 L 300 240 L 110 240 L 40 180 Z" stroke="#f97316" stroke-width="16" stroke-linejoin="round"></path>
+          <ellipse cx="200" cy="150" rx="140" ry="85" fill="#7f1d1d" opacity="0.6"></ellipse>
+          <ellipse cx="200" cy="150" rx="110" ry="60" stroke="#dc2626" stroke-width="10" fill="none"></ellipse>
+          <path d="M 50 60 L 190 145 L 180 165 L 40 80 Z" fill="#1e1b4b" stroke="#f97316" stroke-width="4"></path>
+          <line x1="230" y1="60" x2="230" y2="140" stroke="#312e81" stroke-width="10"></line>
+          <line x1="250" y1="50" x2="245" y2="140" stroke="#312e81" stroke-width="10"></line>
+          <line x1="270" y1="60" x2="260" y2="140" stroke="#312e81" stroke-width="10"></line>
+          <polygon points="50,150 330,120 300,205 20,235" fill="#1e1b4b" stroke="#f97316" stroke-width="7"></polygon>
+          <text x="175" y="195" font-family="sans-serif" font-weight="900" font-size="52" fill="#ffffff" stroke="#f97316" stroke-width="1.5" text-anchor="middle" transform="rotate(-6 175 195)">AV UNITED</text>
+          <circle cx="230" cy="225" r="22" fill="#991b1b" stroke="#ffffff" stroke-width="2"></circle>
+        </g>
+      </svg>
+      <div>
+        <div class="brand-title">AV UNITED</div>
+        <div class="brand-sub">King of the Pitch</div>
+      </div>
+    </div>
+    <div class="btn-group">
+      <button onclick="startNewMatch()" class="btn-restart" title="Reset Run">↺ Reset</button>
+      <button onclick="openRosterModal()" class="btn-manage">⚙️ Roster</button>
+      <button onclick="openBulkModal()" class="btn-bulk">📥 Bulk</button>
+      <button onclick="openDraftModal()" class="btn-add">+ Add</button>
+      <button onclick="downloadAppFile()" class="btn-save">💾 Save</button>
+    </div>
+  </header>
+
+  <!-- SQUAD FILTER BAR -->
+  <div class="filter-wrapper">
+    <div class="filter-label">🏏 Choose Active Squad / Roster:</div>
+    <div class="filter-bar">
+      <button onclick="setCategoryFilter('AV United Squad')" id="filter-av" class="filter-btn active">🛡️ AV United Squad</button>
+      <button onclick="setCategoryFilter('ALL')" id="filter-all" class="filter-btn">All Players</button>
+      <button onclick="setCategoryFilter('Batsmen &amp; Hitters')" id="filter-bat" class="filter-btn">🏏 Batsmen</button>
+      <button onclick="setCategoryFilter('Bowling Wizard')" id="filter-bowl" class="filter-btn">⚡ Bowlers</button>
+      <button onclick="setCategoryFilter('All-Time Legend')" id="filter-leg" class="filter-btn">👑 Legends</button>
+    </div>
+  </div>
+
+  <!-- ARENA -->
+  <main>
+    <div id="arenaGrid" class="cards-grid" style="display: grid;">
+      <div class="vs-badge">VS</div>
+
+      <!-- CARD 1 -->
+      <div class="card" onclick="choosePlayer(0)">
+        <div id="streak-0" class="streak-badge" style="display:none;">🔥 Streak: <span id="streak-val-0">1</span></div>
+        <div id="cat-0" class="card-cat">AV United Squad</div>
+        <div class="avatar-circle" id="initials-0">RC</div>
+        <div>
+          <div class="card-name" id="name-0">Rohith C</div>
+          <div class="card-team" id="team-0">AVUnited</div>
+        </div>
+        <div class="card-role" id="role-0">AllRounder &amp; Complete Team Player</div>
+        <button class="btn-select">Select Winner ❯</button>
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="card" onclick="choosePlayer(1)">
+        <div id="streak-1" class="streak-badge" style="display:none;">🔥 Streak: <span id="streak-val-1">1</span></div>
+        <div id="cat-1" class="card-cat">AV United Squad</div>
+        <div class="avatar-circle" id="initials-1">RC</div>
+        <div>
+          <div class="card-name" id="name-1">Rajesh C</div>
+          <div class="card-team" id="team-1">AVUnited</div>
+        </div>
+        <div class="card-role" id="role-1">Captain &amp; Left handed Allrounder</div>
+        <button class="btn-select">Select Winner ❯</button>
+      </div>
+    </div>
+
+    <div id="championScreen" class="winner-screen" style="display:none;">
+      <div class="winner-trophy">👑 🏏</div>
+      <div class="winner-title">TOURNAMENT CHAMPION!</div>
+      <div class="winner-subtitle">Every challenger in this squad has been defeated!</div>
+      <div class="avatar-circle" id="champ-initials" style="width:70px; height:70px; font-size:26px; margin: 10px auto;">AV</div>
+      <div class="winner-name" id="champ-name">Player Name</div>
+      <div class="winner-detail" id="champ-detail">AVUnited • Final Defense Streak: 0</div>
+      <button onclick="startNewMatch()" class="btn-add" style="padding: 10px 24px; font-size: 14px;">↺ Start New Face-Off Run</button>
+    </div>
+
+    <div class="stats-bar">
+      Matches: <span id="total-rounds">0</span> • Remaining Contenders: <span id="remaining-count">24</span> • Total Squad: <span id="squad-count">24</span>
+    </div>
+  </main>
+
+  <!-- ROSTER MODAL -->
+  <div id="rosterModal" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>⚙️ Roster Manager</h3>
+        <button onclick="closeRosterModal()" class="modal-close">×</button>
+      </div>
+      <div style="padding:10px 12px; border-bottom:1px solid #1e1b4b; display:flex; gap:6px;">
+        <input type="text" id="rosterSearch" placeholder="Search player..." oninput="renderRosterList()" class="input-box" style="margin-bottom:0;">
+        <button onclick="openBulkModal()" style="background:#4338ca; color:#fff; padding:6px 10px; font-size:11px;">📥 Bulk</button>
+        <button onclick="resetRosterDefaults()" style="background:#27272a; color:#fff; padding:6px 10px; font-size:11px;">↺ Reset Base</button>
+      </div>
+      <div class="modal-body" id="rosterListContainer"></div>
+    </div>
+  </div>
+
+  <!-- BULK UPLOAD MODAL -->
+  <div id="bulkModal" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>📥 Bulk Upload Players</h3>
+        <button onclick="closeBulkModal()" class="modal-close">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="help-hint">
+          <strong>Paste lines or upload a CSV file</strong>.<br>
+          Format per line:<br>
+          <code>Name, Team, Category, Role</code><br>
+          <em>(e.g. <code>Sanjeeth, AVUnited, AV United Squad, Batsman &amp; Fielder</code>)</em>
+        </div>
+
+        <div style="margin-bottom:8px;">
+          <label style="font-size:11px; color:#cbd5e1; display:block; margin-bottom:4px;">Upload CSV/TXT file:</label>
+          <input type="file" id="csvFileInput" accept=".csv,.txt" onchange="handleFileSelect(event)" style="font-size:11px; color:#94a3b8;">
+        </div>
+
+        <label style="font-size:11px; color:#cbd5e1; display:block; margin-bottom:4px;">Or paste player lines below:</label>
+        <textarea id="bulkText" rows="7" class="input-box" placeholder="Sanjeeth, AVUnited, AV United Squad, Batsman &amp; Fielder
+Nishanth, AVUnited, AV United Squad, Explosive Left handed Allrounder"></textarea>
+
+        <div style="margin: 8px 0 12px; font-size:11px; color:#cbd5e1; display:flex; gap:14px;">
+          <label style="display:flex; align-items:center; gap:4px; cursor:pointer;">
+            <input type="radio" name="bulkMode" value="append" checked=""> Append to roster
+          </label>
+          <label style="display:flex; align-items:center; gap:4px; cursor:pointer;">
+            <input type="radio" name="bulkMode" value="replace"> Replace roster
+          </label>
+        </div>
+
+        <button onclick="processBulkUpload()" class="btn-add" style="width:100%; padding:10px; font-size:13px;">Process &amp; Import Players</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD SINGLE STAR MODAL -->
+  <div id="draftModal" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>+ Add Single Player</h3>
+        <button onclick="closeDraftModal()" class="modal-close">×</button>
+      </div>
+      <div class="modal-body">
+        <form onsubmit="handleDraftPlayer(event)">
+          <input id="new-name" required="" placeholder="Player Name" class="input-box">
+          <input id="new-team" required="" placeholder="Team (e.g. AVUnited)" value="AVUnited" class="input-box">
+          <select id="new-cat" class="input-box">
+            <option value="AV United Squad">AV United Squad</option>
+            <option value="Batsmen &amp; Hitters">Batsmen &amp; Hitters</option>
+            <option value="Bowling Wizard">Bowling Wizard</option>
+            <option value="All-Time Legend">All-Time Legend</option>
+          </select>
+          <input id="new-role" placeholder="Role (e.g. Explosive Allrounder)" class="input-box">
+          <button type="submit" class="btn-add" style="width:100%; padding:10px; font-size:13px; margin-top:4px;">Add Player</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var BASELINE_PLAYERS = [
+      { id: 'av_1', name: "Sanjeeth", team: "AVUnited", role: "Batsman & Fielder", cat: "AV United Squad" },
+      { id: 'av_2', name: "Nishanth", team: "AVUnited", role: "Explosive Left handed Allrounder", cat: "AV United Squad" },
+      { id: 'av_3', name: "Vikas", team: "AVUnited", role: "AllRounder & Coolest Player", cat: "AV United Squad" },
+      { id: 'av_4', name: "Rajesh C", team: "AVUnited", role: "Captain & Left handed Allrounder", cat: "AV United Squad" },
+      { id: 'av_5', name: "Ankit S", team: "AVUnited", role: "Explosive & Thinking Allrounder", cat: "AV United Squad" },
+      { id: 'av_6', name: "Rohith C", team: "AVUnited", role: "AllRounder & Complete Team Player", cat: "AV United Squad" },
+      { id: 'av_7', name: "Prabhakar", team: "AVUnited", role: "Dynamic Allround Utility Player", cat: "AV United Squad" },
+      { id: 'av_8', name: "Vardhaman", team: "AVUnited", role: "Captain & AllRounder", cat: "AV United Squad" },
+      { id: 'av_9', name: "Samarjit", team: "AVUnited", role: "Mr Dependable Allrounder", cat: "AV United Squad" },
+      { id: 'av_10', name: "Utsav", team: "AVUnited", role: "AllRounder for all challenges", cat: "AV United Squad" },
+      { id: 'av_11', name: "Suresh C", team: "AVUnited", role: "WK AllRounder always ready", cat: "AV United Squad" },
+      { id: 'av_12', name: "Sai Kumar", team: "AVUnited", role: "Most Complete AllRound cricketer", cat: "AV United Squad" },
+      { id: 'av_13', name: "Aashish M", team: "AVUnited", role: "Innovative Cricketer", cat: "AV United Squad" },
+      { id: 'av_14', name: "Keshav M", team: "AVUnited", role: "Understated AllRounder", cat: "AV United Squad" },
+      { id: 'av_15', name: "Vedant", team: "AVUnited", role: "Newest Sensation Batter & Gun Fielder", cat: "AV United Squad" },
+      { id: 'av_16', name: "Bhautik", team: "AVUnited", role: "Terrific New Left Handed Allrounder", cat: "AV United Squad" },
+      { id: 'av_17', name: "Sumit M", team: "AVUnited", role: "Dynamic Allrounder", cat: "AV United Squad" },
+      { id: 'av_18', name: "Vivek N", team: "AVUnited", role: "The McGrath of AVUnited", cat: "AV United Squad" },
+      { id: 'av_19', name: "Venkat", team: "AVUnited", role: "Decent Bowling AllRounder", cat: "AV United Squad" },
+      { id: 'av_20', name: "Rajat", team: "AVUnited", role: "WK Allrounder & The Brains", cat: "AV United Squad" },
+      { id: 'av_21', name: "Shlok", team: "AVUnited", role: "Bowling Allrounder & Quick Thinker", cat: "AV United Squad" },
+      { id: 'av_22', name: "Kanishk", team: "AVUnited", role: "Batting AllRounder & Winning Mindset", cat: "AV United Squad" },
+      { id: 'av_23', name: "Srijai", team: "AVUnited", role: "Bowling AllRounder and Team Player", cat: "AV United Squad" },
+      { id: 'av_24', name: "Ramero", team: "AVUnited", role: "Silent Killer Terrific Athletic Allround Skills", cat: "AV United Squad" },
+      { id: 'b1', name: "Virat Kohli", team: "India", role: "King of Modern Chases", cat: "Batsmen & Hitters" },
+      { id: 'b2', name: "Rohit Sharma", team: "India", role: "Hitman / 3x Double 100s", cat: "Batsmen & Hitters" },
+      { id: 'b3', name: "AB de Villiers", team: "South Africa", role: "Mr. 360 Degrees", cat: "Batsmen & Hitters" },
+      { id: 'b4', name: "Steve Smith", team: "Australia", role: "Test Batting Genius", cat: "Batsmen & Hitters" },
+      { id: 'w1', name: "Jasprit Bumrah", team: "India", role: "Yorker & Pace Maestro", cat: "Bowling Wizard" },
+      { id: 'w2', name: "Shane Warne", team: "Australia", role: "King of Spin", cat: "Bowling Wizard" },
+      { id: 'w3', name: "Wasim Akram", team: "Pakistan", role: "Sultan of Reverse Swing", cat: "Bowling Wizard" },
+      { id: 'w4', name: "Muttiah Muralitharan", team: "Sri Lanka", role: "800 Test Wickets", cat: "Bowling Wizard" },
+      { id: 'l1', name: "Sachin Tendulkar", team: "India", role: "God of Cricket", cat: "All-Time Legend" },
+      { id: 'l2', name: "MS Dhoni", team: "India", role: "Finisher & Captain Cool", cat: "All-Time Legend" },
+      { id: 'l3', name: "Brian Lara", team: "West Indies", role: "Prince of Trinidad (400*)", cat: "All-Time Legend" }
+    ];
+
+    var players = BASELINE_PLAYERS.slice();
+    try {
+      var saved = localStorage.getItem('av_cricket_roster_baseline_v1');
+      if (saved) {
+        var parsed = JSON.parse(saved);
+        if (parsed && parsed.length >= 2) players = parsed;
+      }
+    } catch (e) {
+      players = BASELINE_PLAYERS.slice();
+    }
+
+    var selectedCategory = 'AV United Squad';
+    var eliminatedIds = {};
+    var currentPair = [null, null];
+    var streakCount = 0;
+    var kingIndex = -1;
+    var totalRounds = 0;
+
+    function saveRoster() {
+      try { localStorage.setItem('av_cricket_roster_baseline_v1', JSON.stringify(players)); } catch (e) {}
+    }
+
+    function getSquadPlayers() {
+      if (selectedCategory === 'ALL') return players;
+      var out = [];
+      for (var i = 0; i < players.length; i++) {
+        var p = players[i];
+        if (p.cat === selectedCategory || (selectedCategory === 'AV United Squad' && (p.team === 'AVUnited' || p.team === 'AV United'))) {
+          out.push(p);
+        }
+      }
+      return out;
+    }
+
+    function getRemainingPlayers() {
+      var squad = getSquadPlayers();
+      var remaining = [];
+      for (var i = 0; i < squad.length; i++) {
+        if (!eliminatedIds[squad[i].id]) remaining.push(squad[i]);
+      }
+      return remaining;
+    }
+
+    function setCategoryFilter(cat) {
+      selectedCategory = cat;
+      var squad = getSquadPlayers();
+      if (squad.length < 2) {
+        alert("Need at least 2 players in this squad!");
+        selectedCategory = 'AV United Squad';
+      }
+
+      var buttons = document.querySelectorAll('.filter-btn');
+      for (var i = 0; i < buttons.length; i++) buttons[i].classList.remove('active');
+
+      var idMap = {
+        'ALL': 'filter-all',
+        'AV United Squad': 'filter-av',
+        'Batsmen & Hitters': 'filter-bat',
+        'Bowling Wizard': 'filter-bowl',
+        'All-Time Legend': 'filter-leg'
+      };
+      var targetBtn = document.getElementById(idMap[selectedCategory]);
+      if (targetBtn) targetBtn.classList.add('active');
+
+      startNewMatch();
+    }
+
+    function getInitials(name) {
+      if (!name) return 'AV';
+      var parts = name.trim().split(' ');
+      var res = '';
+      for (var i = 0; i < parts.length && i < 2; i++) {
+        if (parts[i].length > 0) res += parts[i][0];
+      }
+      return res.toUpperCase() || 'AV';
+    }
+
+    function startNewMatch() {
+      eliminatedIds = {};
+      totalRounds = 0;
+      streakCount = 0;
+      kingIndex = -1;
+
+      document.getElementById('arenaGrid').style.display = 'grid';
+      document.getElementById('championScreen').style.display = 'none';
+
+      var squad = getSquadPlayers();
+      if (squad.length < 2) {
+        selectedCategory = 'ALL';
+        squad = players;
+      }
+
+      var p1 = squad[Math.floor(Math.random() * squad.length)];
+      var rest = [];
+      for (var i = 0; i < squad.length; i++) {
+        if (squad[i].id !== p1.id) rest.push(squad[i]);
+      }
+      var p2 = rest[Math.floor(Math.random() * rest.length)];
+
+      currentPair = [p1, p2];
+      refreshUI();
+    }
+
+    function refreshUI() {
+      if (!currentPair[0] || !currentPair[1]) return;
+
+      for (var i = 0; i < 2; i++) {
+        var p = currentPair[i];
+        var nameEl = document.getElementById('name-' + i);
+        var teamEl = document.getElementById('team-' + i);
+        var roleEl = document.getElementById('role-' + i);
+        var catEl = document.getElementById('cat-' + i);
+        var initEl = document.getElementById('initials-' + i);
+
+        if (nameEl) nameEl.textContent = p.name;
+        if (teamEl) teamEl.textContent = p.team;
+        if (roleEl) roleEl.textContent = p.role;
+        if (catEl) catEl.textContent = p.cat;
+        if (initEl) initEl.textContent = getInitials(p.name);
+
+        var streakBadge = document.getElementById('streak-' + i);
+        if (streakBadge) {
+          if (kingIndex === i && streakCount > 0) {
+            streakBadge.style.display = 'block';
+            document.getElementById('streak-val-' + i).textContent = streakCount;
+          } else {
+            streakBadge.style.display = 'none';
+          }
+        }
+      }
+
+      var roundsEl = document.getElementById('total-rounds');
+      var squadCountEl = document.getElementById('squad-count');
+      var remEl = document.getElementById('remaining-count');
+      
+      var fullSquad = getSquadPlayers();
+      var remaining = getRemainingPlayers();
+
+      if (roundsEl) roundsEl.textContent = totalRounds;
+      if (squadCountEl) squadCountEl.textContent = fullSquad.length;
+      if (remEl) remEl.textContent = remaining.length;
+    }
+
+    function choosePlayer(pickedIdx) {
+      totalRounds++;
+      var rejectedIdx = (pickedIdx === 0) ? 1 : 0;
+      var winner = currentPair[pickedIdx];
+      var loser = currentPair[rejectedIdx];
+
+      eliminatedIds[loser.id] = true;
+
+      if (kingIndex === pickedIdx) {
+        streakCount++;
+      } else {
+        kingIndex = pickedIdx;
+        streakCount = 1;
+      }
+
+      var squad = getSquadPlayers();
+      var contenders = [];
+      for (var i = 0; i < squad.length; i++) {
+        var candidate = squad[i];
+        if (!eliminatedIds[candidate.id] && candidate.id !== winner.id && candidate.id !== loser.id) {
+          contenders.push(candidate);
+        }
+      }
+
+      if (contenders.length > 0) {
+        currentPair[rejectedIdx] = contenders[Math.floor(Math.random() * contenders.length)];
+        refreshUI();
+      } else {
+        showChampion(winner);
+      }
+    }
+
+    function showChampion(champ) {
+      document.getElementById('arenaGrid').style.display = 'none';
+      var screen = document.getElementById('championScreen');
+      screen.style.display = 'block';
+
+      document.getElementById('champ-name').textContent = champ.name;
+      document.getElementById('champ-initials').textContent = getInitials(champ.name);
+      document.getElementById('champ-detail').textContent = champ.team + " • Undefeated Streak: " + streakCount + " Rounds";
+      
+      var remEl = document.getElementById('remaining-count');
+      if (remEl) remEl.textContent = "1 (Champion)";
+    }
+
+    function openBulkModal() {
+      document.getElementById('bulkModal').style.display = 'flex';
+      closeRosterModal();
+    }
+    function closeBulkModal() {
+      document.getElementById('bulkModal').style.display = 'none';
+    }
+
+    function handleFileSelect(e) {
+      var file = e.target.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function(evt) {
+        document.getElementById('bulkText').value = evt.target.result;
+      };
+      reader.readAsText(file);
+    }
+
+    function normalizeCategory(raw) {
+      if (!raw) return 'AV United Squad';
+      var r = raw.trim().toLowerCase();
+      if (r.indexOf('av') !== -1 || r.indexOf('united') !== -1) return 'AV United Squad';
+      if (r.indexOf('bowl') !== -1 || r.indexOf('spin') !== -1 || r.indexOf('pace') !== -1) return 'Bowling Wizard';
+      if (r.indexOf('legend') !== -1 || r.indexOf('classic') !== -1) return 'All-Time Legend';
+      return 'Batsmen & Hitters';
+    }
+
+    function processBulkUpload() {
+      var text = document.getElementById('bulkText').value.trim();
+      if (!text) {
+        alert("Please enter or paste at least one line of players!");
+        return;
+      }
+
+      var lines = text.split(/\r?\n/);
+      var newEntries = [];
+      var timestamp = new Date().getTime();
+
+      for (var i = 0; i < lines.length; i++) {
+        var line = lines[i].trim();
+        if (!line) continue;
+
+        if (i === 0 && line.toLowerCase().indexOf('name') !== -1 && line.toLowerCase().indexOf('team') !== -1) {
+          continue;
+        }
+
+        var parts = line.split(',');
+        var name = parts[0] ? parts[0].trim() : '';
+        if (!name) continue;
+
+        var team = parts[1] ? parts[1].trim() : 'AVUnited';
+        var cat = normalizeCategory(parts[2]);
+        var role = parts[3] ? parts[3].trim() : 'Squad Star';
+
+        newEntries.push({
+          id: 'bulk_' + timestamp + '_' + i,
+          name: name,
+          team: team,
+          cat: cat,
+          role: role
+        });
+      }
+
+      if (newEntries.length === 0) {
+        alert("Could not detect valid players. Check format: Name, Team, Category, Role");
+        return;
+      }
+
+      var mode = 'append';
+      var modeRadios = document.getElementsByName('bulkMode');
+      for (var r = 0; r < modeRadios.length; r++) {
+        if (modeRadios[r].checked) mode = modeRadios[r].value;
+      }
+
+      if (mode === 'replace') {
+        if (newEntries.length < 2) {
+          alert("You need at least 2 players to replace the roster!");
+          return;
+        }
+        players = newEntries;
+      } else {
+        players = players.concat(newEntries);
+      }
+
+      saveRoster();
+      closeBulkModal();
+      document.getElementById('bulkText').value = '';
+      document.getElementById('csvFileInput').value = '';
+      startNewMatch();
+      alert("✅ Successfully imported " + newEntries.length + " players into the roster!");
+    }
+
+    function openRosterModal() {
+      document.getElementById('rosterModal').style.display = 'flex';
+      renderRosterList();
+    }
+    function closeRosterModal() {
+      document.getElementById('rosterModal').style.display = 'none';
+    }
+
+    function renderRosterList() {
+      var container = document.getElementById('rosterListContainer');
+      var searchInput = document.getElementById('rosterSearch');
+      var search = (searchInput && searchInput.value ? searchInput.value : '').toLowerCase();
+      
+      var filtered = [];
+      for (var i = 0; i < players.length; i++) {
+        var item = players[i];
+        if (item.name.toLowerCase().indexOf(search) !== -1 ||
+            item.team.toLowerCase().indexOf(search) !== -1 ||
+            item.cat.toLowerCase().indexOf(search) !== -1) {
+          filtered.push(item);
+        }
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<div style="text-align:center; color:#94a3b8; font-size:12px; padding:20px;">No players found.</div>';
+        return;
+      }
+
+      var html = '';
+      for (var j = 0; j < filtered.length; j++) {
+        var p = filtered[j];
+        html += '<div class="roster-row">' +
+          '<div>' +
+            '<div class="roster-row-info">' + p.name + '</div>' +
+            '<div class="roster-row-sub">' + p.team + ' • ' + p.cat + ' • ' + p.role + '</div>' +
+          '</div>' +
+          '<div class="roster-actions">' +
+            '<button class="btn-edit" onclick="editPlayer(\'' + p.id + '\')">✏️ Edit</button>' +
+            '<button class="btn-del" onclick="deletePlayer(\'' + p.id + '\')">🗑️ Del</button>' +
+          '</div>' +
+        '</div>';
+      }
+      container.innerHTML = html;
+    }
+
+    function deletePlayer(id) {
+      if (players.length <= 2) {
+        alert("Must maintain at least 2 players in total!");
+        return;
+      }
+      var updated = [];
+      for (var i = 0; i < players.length; i++) {
+        if (players[i].id !== id) updated.push(players[i]);
+      }
+      players = updated;
+      saveRoster();
+      renderRosterList();
+      if ((currentPair[0] && currentPair[0].id === id) || (currentPair[1] && currentPair[1].id === id)) {
+        startNewMatch();
+      }
+    }
+
+    function editPlayer(id) {
+      var target = null;
+      for (var i = 0; i < players.length; i++) {
+        if (players[i].id === id) {
+          target = players[i];
+          break;
+        }
+      }
+      if (!target) return;
+
+      var newName = prompt("Edit Player Name:", target.name);
+      if (!newName || !newName.trim()) return;
+
+      var newTeam = prompt("Edit Team/Country:", target.team) || target.team;
+      var newRole = prompt("Edit Tagline / Role:", target.role) || target.role;
+
+      target.name = newName.trim();
+      target.team = newTeam.trim();
+      target.role = newRole.trim();
+
+      saveRoster();
+      renderRosterList();
+      refreshUI();
+    }
+
+    function resetRosterDefaults() {
+      if (confirm("Reset roster back to default AVUNITED squad?")) {
+        players = BASELINE_PLAYERS.slice();
+        saveRoster();
+        renderRosterList();
+        setCategoryFilter('AV United Squad');
+      }
+    }
+
+    function openDraftModal() {
+      document.getElementById('draftModal').style.display = 'flex';
+    }
+    function closeDraftModal() {
+      document.getElementById('draftModal').style.display = 'none';
+    }
+
+    function handleDraftPlayer(e) {
+      e.preventDefault();
+      var nameEl = document.getElementById('new-name');
+      var teamEl = document.getElementById('new-team');
+      var catEl = document.getElementById('new-cat');
+      var roleEl = document.getElementById('new-role');
+
+      var name = nameEl.value.trim();
+      var team = teamEl.value.trim();
+      var cat = catEl.value;
+      var role = roleEl.value.trim() || 'Star Player';
+
+      if (!name || !team) return;
+
+      players.push({ id: 'p_' + new Date().getTime(), name: name, team: team, cat: cat, role: role });
+      saveRoster();
+      closeDraftModal();
+      e.target.reset();
+      startNewMatch();
+      alert("🏏 " + name + " added to " + cat + "!");
+    }
+
+    function downloadAppFile() {
+      var html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+      var blob = new Blob([html], { type: 'text/html' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'AV_UNITED_Cricket.html';
+      a.click();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', startNewMatch);
+    } else {
+      startNewMatch();
+    }
+  </script>
+
+
+</body></html>
